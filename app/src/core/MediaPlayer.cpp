@@ -9,7 +9,7 @@ namespace juke {
 
 MediaPlayer::MediaPlayer() : m_status{MediaStatus::stopped}, m_backdrop{} { m_backdrop.setFillColor(colors::grey); }
 
-int MediaPlayer::load_media(std::filesystem const path) {
+int MediaPlayer::load_media(std::filesystem::path const& path) {
 	try {
 		m_file = MediaFile(path);
 	} catch (std::exception const& e) {
@@ -19,6 +19,7 @@ int MediaPlayer::load_media(std::filesystem const path) {
 		std::println("ERROR: UNKNOWN");
 		return EXIT_FAILURE;
 	}
+	return EXIT_SUCCESS;
 }
 
 void MediaPlayer::handle_input() {
@@ -37,8 +38,6 @@ void MediaPlayer::handle_input() {
 	}
 }
 
-void MediaPlayer::update(std::chrono::duration<float> const dt) {
-	if (playing() && m_file) { m_file.play(); }
-}
+void MediaPlayer::update([[maybe_unused]] std::chrono::duration<float> const dt) {}
 
 } // namespace juke

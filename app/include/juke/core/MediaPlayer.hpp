@@ -10,10 +10,10 @@ enum class MediaStatus { playing, paused, stopped };
 
 class MediaPlayer {
   public:
-	MediaPlayer();
-	int load_media(std::filesystem const path);
+	explicit MediaPlayer();
+	int load_media(std::filesystem::path const& path);
 	void handle_input();
-	void update(std::chrono::duration<float> const dt);
+	void update(std::chrono::duration<float> dt);
 
 	[[nodiscard]] auto playing() const -> bool { return m_status == MediaStatus::playing; }
 	[[nodiscard]] auto paused() const -> bool { return m_status == MediaStatus::paused; }

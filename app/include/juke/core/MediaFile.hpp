@@ -8,7 +8,7 @@ namespace juke {
 
 class MediaFile {
   public:
-	MediaFile(std::filesystem path const);
+	explicit MediaFile(std::filesystem::path const& path);
 	void play();
 
   private:
