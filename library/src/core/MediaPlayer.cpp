@@ -13,7 +13,9 @@ MediaPlayer::MediaPlayer(capo::IEngine& audio_engine) : m_source(audio_engine.cr
 
 bool MediaPlayer::load_media(std::filesystem::path const& path) {
 	try {
-		m_file = MediaFile(path);
+		auto file = MediaFile(path);
+		m_source->stop(); // if file didn't throw, stop playback as m_file will be replaced
+		m_file = std::move(file);
 	} catch (std::exception const& e) {
 		std::println("ERROR: {}", e.what());
 		return false;
