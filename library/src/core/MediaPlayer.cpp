@@ -65,7 +65,7 @@ void MediaPlayer::handle_input() {
 		ImGui::Separator();
 		ImGui::Text("File Name: ");
 		ImGui::SameLine();
-		m_file ? ImGui::TextColored(colors::blue, m_file->get_filename().c_str()) : ImGui::TextColored(colors::grey, "<no file>");
+		m_file ? ImGui::TextColored(colors::blue, "%s", m_file->get_filename().c_str()) : ImGui::TextColored(colors::grey, "<no file>");
 
 		m_status_string.clear();
 		std::format_to(std::back_inserter(m_status_string), "{}", playing() ? "playing" : paused() ? "paused" : "stopped");
