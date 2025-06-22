@@ -3,6 +3,7 @@
 #include <capo/engine.hpp>
 #include <juke/core/MediaPlayer.hpp>
 #include <juke/graphics/Colors.hpp>
+#include <algorithm>
 #include <print>
 
 namespace juke {
@@ -38,6 +39,14 @@ bool MediaPlayer::load_media(std::filesystem::path const& path) {
 void MediaPlayer::handle_input() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 	if (ImGui::Begin("Player", nullptr, flags)) {
+
+		/* Progress Bar */
+		auto fraction = 0.f;
+		if (m_file) { fraction = m_source->get_cursor() / m_source->get_duration(); }
+		ImGui::ProgressBar(fraction);
+
+		/* Control Buttons */
+		ImGui::Separator();
 		if (ImGui::Button("play")) {
 			m_source->play();
 			m_status = MediaStatus::playing;
@@ -54,7 +63,10 @@ void MediaPlayer::handle_input() {
 			m_status = MediaStatus::stopped;
 		}
 		ImGui::Separator();
-		if (m_file) { ImGui::TextUnformatted(m_file->get_filename().c_str()); }
+		ImGui::Text("File Name: ");
+		ImGui::SameLine();
+		m_file ? ImGui::TextColored(colors::blue, "%s", m_file->get_filename().c_str()) : ImGui::TextColored(colors::grey, "<no file>");
+
 		m_status_string.clear();
 		std::format_to(std::back_inserter(m_status_string), "{}", playing() ? "playing" : paused() ? "paused" : "stopped");
 		ImGui::Text("Media Status: %s", m_status_string.c_str());

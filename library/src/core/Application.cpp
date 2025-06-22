@@ -7,7 +7,7 @@ namespace juke {
 Application::Application() {
 	if (!m_engine) { throw std::runtime_error{"Failed to create Engine"}; }
 
-	auto window = gvdi::Context::create_window({200.0f, 100.0f}, "Jukebox");
+	auto window = gvdi::Context::create_window({400.0f, 200.0f}, "Jukebox");
 	if (!window) { throw std::runtime_error{"Failed to create window"}; }
 
 	glfwSetWindowUserPointer(window.get(), this);
