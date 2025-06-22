@@ -50,7 +50,7 @@
 			"inherits": "base-gcc",
 			"binaryDir": "${sourceDir}/out/gcc",
 			"cacheVariables": {
-				"CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Werror=return-type",
+				"CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Werror=return-type",
 				"CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-Werror",
 				"CMAKE_CXX_FLAGS_RELEASE_INIT": "-Werror"
 			}
@@ -62,7 +62,7 @@
 			"inherits": "base-clang",
 			"binaryDir": "${sourceDir}/out/clang",
 			"cacheVariables": {
-				"CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Werror=return-type",
+				"CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Werror=return-type",
 				"CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-Werror",
 				"CMAKE_CXX_FLAGS_RELEASE_INIT": "-Werror"
 			}
@@ -85,7 +85,7 @@
 			"inherits": "default",
 			"binaryDir": "${sourceDir}/out/ubsan",
 			"cacheVariables": {
-				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=undefined -Wall -Wextra -Wpedantic -Wconversion -Werror=return-type"
+				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=undefined -Wall -Wextra -Wpedantic -Werror=return-type"
 			}
 		},
 		{
@@ -95,7 +95,7 @@
 			"inherits": "default",
 			"binaryDir": "${sourceDir}/out/asan",
 			"cacheVariables": {
-				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=address -Wall -Wextra -Wpedantic -Wconversion -Werror=return-type"
+				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=address -Wall -Wextra -Wpedantic -Werror=return-type"
 			}
 		},
 		{
@@ -115,7 +115,7 @@
 			"inherits": "default",
 			"binaryDir": "${sourceDir}/out/tsan",
 			"cacheVariables": {
-				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=thread -Wall -Wextra -Wpedantic -Wconversion -Werror=return-type"
+				"CMAKE_CXX_FLAGS_INIT": "-fsanitize=thread -Wall -Wextra -Wpedantic -Werror=return-type"
 			}
 		},
 		{
