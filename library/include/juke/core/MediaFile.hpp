@@ -9,12 +9,12 @@ namespace juke {
 class MediaFile {
   public:
 	explicit MediaFile(std::filesystem::path const& path);
-	void play();
+	[[nodiscard]] capo::Buffer const& get_buffer() const { return m_buffer; }
+	[[nodiscard]] std::string const& get_filename() const { return m_filename; }
 
   private:
-	std::unique_ptr<capo::IEngine> m_engine;
-	std::unique_ptr<capo::ISource> m_source;
 	capo::Buffer m_buffer{};
+	std::string m_filename{};
 };
 
 } // namespace juke

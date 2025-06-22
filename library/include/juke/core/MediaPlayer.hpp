@@ -1,5 +1,6 @@
 #pragma once
 
+#include <capo/source.hpp>
 #include <juke/core/MediaFile.hpp>
 #include <chrono>
 #include <filesystem>
@@ -12,8 +13,8 @@ enum class MediaStatus { playing, paused, stopped };
 
 class MediaPlayer {
   public:
-	explicit MediaPlayer();
-	int load_media(std::filesystem::path const& path);
+	explicit MediaPlayer(capo::IEngine& audio_engine);
+	bool load_media(std::filesystem::path const& path);
 	void handle_input();
 	void update(std::chrono::duration<float> dt);
 
@@ -22,6 +23,8 @@ class MediaPlayer {
 	[[nodiscard]] auto stopped() const -> bool { return m_status == MediaStatus::stopped; }
 
   private:
+	std::unique_ptr<capo::ISource> m_source{};
+
 	MediaStatus m_status;
 	bool m_trigger{};
 

@@ -1,10 +1,16 @@
 
 #include <juke/core/Application.hpp>
+#include <print>
 
 int main() {
-
-	juke::Application app{};
-	app.run();
-
-	return EXIT_SUCCESS;
+	try {
+		juke::Application app{};
+		app.run();
+	} catch (std::exception const& e) {
+		std::println("ERROR: {}", e.what());
+		return EXIT_FAILURE;
+	} catch (...) {
+		std::println("ERROR: UNKNOWN");
+		return EXIT_FAILURE;
+	}
 }

@@ -4,9 +4,9 @@
 
 namespace juke {
 
-Application::Application()
-// : m_context{sf::VideoMode({200, 100}), "Jukebox", sf::Style::Default, sf::State::Windowed}
-{
+Application::Application() {
+	if (!m_engine) { throw std::runtime_error{"Failed to create Engine"}; }
+
 	auto window = gvdi::Context::create_window({200.0f, 100.0f}, "Jukebox");
 	if (!window) { throw std::runtime_error{"Failed to create window"}; }
 
@@ -14,6 +14,8 @@ Application::Application()
 	set_glfw_callbacks(window.get());
 
 	m_context.emplace(std::move(window));
+
+	m_player.emplace(*m_engine);
 }
 
 void Application::run() {
@@ -26,9 +28,9 @@ void Application::run() {
 		auto const dt = std::chrono::duration_cast<std::chrono::duration<float>>(new_now - now);
 		now = new_now;
 
-		m_player.handle_input();
+		m_player->handle_input();
 
-		m_player.update(dt);
+		m_player->update(dt);
 
 		m_context->render();
 	}
@@ -41,6 +43,8 @@ void Application::set_glfw_callbacks(GLFWwindow* window) {
 }
 
 void Application::on_file_drop([[maybe_unused]] std::span<char const* const> paths) {
-	// TODO
+	for (auto const& path : paths) {
+		if (m_player->load_media(path)) { break; }
+	}
 }
 } // namespace juke

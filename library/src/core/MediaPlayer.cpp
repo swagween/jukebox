@@ -7,30 +7,52 @@
 
 namespace juke {
 
-MediaPlayer::MediaPlayer() : m_status{MediaStatus::stopped} {}
+MediaPlayer::MediaPlayer(capo::IEngine& audio_engine) : m_source(audio_engine.create_source()), m_status{MediaStatus::stopped} {
+	if (!m_source) { throw std::runtime_error{"Failed to create Audio Source"}; }
+}
 
-int MediaPlayer::load_media(std::filesystem::path const& path) {
+bool MediaPlayer::load_media(std::filesystem::path const& path) {
 	try {
 		m_file = MediaFile(path);
 	} catch (std::exception const& e) {
 		std::println("ERROR: {}", e.what());
-		return EXIT_FAILURE;
+		return false;
 	} catch (...) {
 		std::println("ERROR: UNKNOWN");
-		return EXIT_FAILURE;
+		return false;
 	}
-	return EXIT_SUCCESS;
+	if (!m_source->bind_to(&m_file->get_buffer())) {
+		std::println("ERROR: Failed to bind Source to PCM");
+		return false;
+	}
+	std::println("Media file loaded: {}", path.string());
+
+	m_source->play();
+	m_status = m_source->is_playing() ? MediaStatus::playing : MediaStatus::stopped;
+
+	return true;
 }
 
 void MediaPlayer::handle_input() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 	if (ImGui::Begin("Player", nullptr, flags)) {
-		if (ImGui::Button("play")) { m_status = MediaStatus::playing; };
+		if (ImGui::Button("play")) {
+			m_source->play();
+			m_status = MediaStatus::playing;
+		}
 		ImGui::SameLine();
-		if (ImGui::Button("pause")) { m_status = MediaStatus::paused; };
+		if (ImGui::Button("pause")) {
+			m_source->stop();
+			m_status = MediaStatus::paused;
+		}
 		ImGui::SameLine();
-		if (ImGui::Button("stop")) { m_status = MediaStatus::stopped; };
+		if (ImGui::Button("stop")) {
+			m_source->stop();
+			m_source->set_cursor({}); // seek to start
+			m_status = MediaStatus::stopped;
+		}
 		ImGui::Separator();
+		if (m_file) { ImGui::TextUnformatted(m_file->get_filename().c_str()); }
 		m_status_string.clear();
 		std::format_to(std::back_inserter(m_status_string), "{}", playing() ? "playing" : paused() ? "paused" : "stopped");
 		ImGui::Text("Media Status: %s", m_status_string.c_str());
@@ -38,6 +60,8 @@ void MediaPlayer::handle_input() {
 	ImGui::End();
 }
 
-void MediaPlayer::update([[maybe_unused]] std::chrono::duration<float> const dt) {}
+void MediaPlayer::update([[maybe_unused]] std::chrono::duration<float> const dt) {
+	if (m_status == MediaStatus::playing && !m_source->is_playing()) { m_status = MediaStatus::stopped; }
+}
 
 } // namespace juke

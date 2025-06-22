@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <capo/engine.hpp>
 #include <gvdi/context.hpp>
 #include <juke/core/MediaPlayer.hpp>
 #include <optional>
@@ -19,8 +20,10 @@ class Application {
 
 	void on_file_drop(std::span<char const* const> paths);
 
+	std::unique_ptr<capo::IEngine> m_engine{capo::create_engine()};
 	std::optional<gvdi::Context> m_context{};
-	MediaPlayer m_player;
+
+	std::optional<MediaPlayer> m_player{};
 };
 
 } // namespace juke
