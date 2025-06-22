@@ -26,7 +26,7 @@ class MediaPlayer {
 	std::unique_ptr<capo::ISource> m_source{};
 
 	MediaStatus m_status;
-	bool m_trigger{};
+	[[maybe_unused]] bool m_trigger{};
 
 	std::optional<MediaFile> m_file{};
 
