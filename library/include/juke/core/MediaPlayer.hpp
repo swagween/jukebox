@@ -1,8 +1,10 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <juke/core/MediaFile.hpp>
+#include <chrono>
+#include <filesystem>
 #include <optional>
+#include <string>
 
 namespace juke {
 
@@ -21,10 +23,11 @@ class MediaPlayer {
 
   private:
 	MediaStatus m_status;
-	sf::RectangleShape m_backdrop;
 	bool m_trigger{};
 
 	std::optional<MediaFile> m_file{};
+
+	std::string m_status_string{"stopped"};
 };
 
 } // namespace juke

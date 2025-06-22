@@ -1,5 +1,5 @@
 
-JUKE_ADD_SOURCES(
+target_sources(juke PRIVATE
   Application.cpp
   MediaFile.cpp
   MediaPlayer.cpp

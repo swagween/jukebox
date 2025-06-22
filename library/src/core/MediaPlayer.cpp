@@ -7,7 +7,7 @@
 
 namespace juke {
 
-MediaPlayer::MediaPlayer() : m_status{MediaStatus::stopped}, m_backdrop{} { m_backdrop.setFillColor(colors::grey); }
+MediaPlayer::MediaPlayer() : m_status{MediaStatus::stopped} {}
 
 int MediaPlayer::load_media(std::filesystem::path const& path) {
 	try {
@@ -23,7 +23,6 @@ int MediaPlayer::load_media(std::filesystem::path const& path) {
 }
 
 void MediaPlayer::handle_input() {
-	static std::string status_string{"stopped"};
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 	if (ImGui::Begin("Player", nullptr, flags)) {
 		if (ImGui::Button("play")) { m_status = MediaStatus::playing; };
@@ -32,10 +31,11 @@ void MediaPlayer::handle_input() {
 		ImGui::SameLine();
 		if (ImGui::Button("stop")) { m_status = MediaStatus::stopped; };
 		ImGui::Separator();
-		status_string = playing() ? "playing" : paused() ? "paused" : "stopped";
-		ImGui::Text("Media Status: %s", status_string.c_str());
-		ImGui::End();
+		m_status_string.clear();
+		std::format_to(std::back_inserter(m_status_string), "{}", playing() ? "playing" : paused() ? "paused" : "stopped");
+		ImGui::Text("Media Status: %s", m_status_string.c_str());
 	}
+	ImGui::End();
 }
 
 void MediaPlayer::update([[maybe_unused]] std::chrono::duration<float> const dt) {}
