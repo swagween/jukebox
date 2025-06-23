@@ -46,4 +46,5 @@ target_link_libraries(jukebox-deps INTERFACE
   djson::djson
   capo::capo
   gvdi::gvdi
+  libxmp::xmp_static
 )
