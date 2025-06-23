@@ -8,6 +8,14 @@ target_link_libraries(juke
   jukebox::deps
 )
 
+if(JUKE_USE_LIBXMP)
+  target_link_libraries(juke
+    PRIVATE
+    libxmp::xmp_static
+  )
+  target_compile_definitions(juke PRIVATE JUKE_USE_LIBXMP)
+endif()
+
 # Glob all headers
 file(GLOB_RECURSE headers "include/*.hpp")
 

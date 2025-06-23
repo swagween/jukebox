@@ -6,6 +6,8 @@ project(jukebox
   VERSION 1.0
 )
 
+option(JUKE_USE_LIBXMP "Use libxmp backend" ON)
+
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
