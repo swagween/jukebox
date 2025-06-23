@@ -17,19 +17,17 @@ class MediaPlayer {
 	bool load_media(std::filesystem::path const& path);
 	void handle_input();
 	void update(std::chrono::duration<float> dt);
-	void stop();
 
 	[[nodiscard]] auto playing() const -> bool { return m_status == MediaStatus::playing; }
 	[[nodiscard]] auto paused() const -> bool { return m_status == MediaStatus::paused; }
 	[[nodiscard]] auto stopped() const -> bool { return m_status == MediaStatus::stopped; }
 
   private:
-	std::unique_ptr<capo::ISource> m_source{};
-
 	MediaStatus m_status;
 	[[maybe_unused]] bool m_trigger{};
 
 	std::optional<MediaFile> m_file{};
+	std::unique_ptr<capo::ISource> m_source{};
 
 	std::string m_status_string{"stopped"};
 };
