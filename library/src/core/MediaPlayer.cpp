@@ -8,7 +8,7 @@
 
 namespace juke {
 
-MediaPlayer::MediaPlayer(capo::IEngine& audio_engine) : m_source(audio_engine.create_source()), m_status{MediaStatus::stopped} {
+MediaPlayer::MediaPlayer(capo::IEngine& audio_engine) : m_source(audio_engine.create_source()) {
 	if (!m_source) { throw std::runtime_error{"Failed to create Audio Source"}; }
 }
 

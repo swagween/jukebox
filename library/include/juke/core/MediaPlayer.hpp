@@ -23,7 +23,7 @@ class MediaPlayer {
 	[[nodiscard]] auto stopped() const -> bool { return m_status == MediaStatus::stopped; }
 
   private:
-	MediaStatus m_status;
+	MediaStatus m_status{MediaStatus::stopped};
 	[[maybe_unused]] bool m_trigger{};
 
 	std::optional<MediaFile> m_file{};
