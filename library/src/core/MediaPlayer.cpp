@@ -78,4 +78,6 @@ void MediaPlayer::update([[maybe_unused]] std::chrono::duration<float> const dt)
 	if (m_status == MediaStatus::playing && !m_source->is_playing()) { m_status = MediaStatus::stopped; }
 }
 
+void MediaPlayer::stop() { m_source->stop(); }
+
 } // namespace juke

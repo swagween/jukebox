@@ -34,6 +34,7 @@ void Application::run() {
 
 		m_context->render();
 	}
+	m_player->stop();
 }
 
 Application& Application::self(GLFWwindow* window) { return *static_cast<Application*>(glfwGetWindowUserPointer(window)); }

@@ -17,6 +17,7 @@ class MediaPlayer {
 	bool load_media(std::filesystem::path const& path);
 	void handle_input();
 	void update(std::chrono::duration<float> dt);
+	void stop();
 
 	[[nodiscard]] auto playing() const -> bool { return m_status == MediaStatus::playing; }
 	[[nodiscard]] auto paused() const -> bool { return m_status == MediaStatus::paused; }
