@@ -17,6 +17,13 @@ FetchContent_Declare(
   GIT_TAG v2.0.1
 )
 
+# libxmp
+FetchContent_Declare(
+  libxmp
+  GIT_REPOSITORY https://github.com/libxmp/libxmp
+  GIT_TAG libxmp-4.6.3
+)
+
 # djson
 FetchContent_Declare(
   djson
@@ -24,7 +31,7 @@ FetchContent_Declare(
   GIT_TAG v2.1.1
 )
 
-FetchContent_MakeAvailable(gvdi capo djson)
+FetchContent_MakeAvailable(gvdi capo libxmp djson)
 
 add_library(jukebox-deps INTERFACE)
 add_library(jukebox::deps ALIAS jukebox-deps)
