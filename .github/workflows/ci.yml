@@ -8,7 +8,7 @@ jobs:
       - name: init
         run: uname -m; sudo apt update -yqq && sudo apt install -yqq ninja-build mesa-common-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
       - name: configure
-        run: cmake -S . --preset=ninja-gcc -B build -DGLFW_BUILD_X11=OFF -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+        run: cmake -S . --preset=ninja-gcc -B build -DGLFW_BUILD_X11=OFF -DJUKE_USE_LIBXMP=OFF -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
       - name: build debug
         run: cmake --build build --config=Debug -- -v
       - name: build release
@@ -24,7 +24,7 @@ jobs:
       - name: init
         run: uname -m; sudo apt update -yqq && sudo apt install -yqq ninja-build clang-19 mesa-common-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
       - name: configure
-        run: cmake -S . --preset=ninja-clang -B build -DGLFW_BUILD_X11=OFF -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
+        run: cmake -S . --preset=ninja-clang -B build -DGLFW_BUILD_X11=OFF -DJUKE_USE_LIBXMP=OFF -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
       - name: build debug
         run: cmake --build build --config=Debug -- -v
       - name: build release
@@ -40,7 +40,7 @@ jobs:
       - name: init
         run: uname -m; sudo apt update -yqq && sudo apt install -yqq ninja-build mesa-common-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
       - name: configure
-        run: cmake -S . --preset=ninja-gcc -B build -DGLFW_BUILD_X11=OFF -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+        run: cmake -S . --preset=ninja-gcc -B build -DGLFW_BUILD_X11=OFF -DJUKE_USE_LIBXMP=OFF -DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
       - name: build debug
         run: cmake --build build --config=Debug -- -v
       - name: build release
@@ -56,7 +56,7 @@ jobs:
       - name: init
         run: uname -m; sudo apt update -yqq && sudo apt install -yqq ninja-build clang-19 mesa-common-dev libwayland-dev libxkbcommon-dev wayland-protocols extra-cmake-modules
       - name: configure
-        run: cmake -S . --preset=ninja-clang -B build -DGLFW_BUILD_X11=OFF -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
+        run: cmake -S . --preset=ninja-clang -B build -DGLFW_BUILD_X11=OFF -DJUKE_USE_LIBXMP=OFF -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
       - name: build debug
         run: cmake --build build --config=Debug -- -v
       - name: build release
@@ -70,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: configure
-        run: cmake -S . --preset=vs22 -B build
+        run: cmake -S . --preset=vs22 -B build -DJUKE_USE_LIBXMP=OFF
       - name: build debug
         run: cmake --build build --config=Debug --parallel
       - name: build release
@@ -83,10 +83,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: init
-        run: choco install ninja
       - name: configure
-        run: cmake -S . --preset=ninja-clang -B build
+        run: cmake -S . --preset=ninja-clang -B build -DJUKE_USE_LIBXMP=OFF
       - name: build debug
         run: cmake --build build --config=Debug -- -v
       - name: build release

@@ -23,12 +23,11 @@ class MediaPlayer {
 	[[nodiscard]] auto stopped() const -> bool { return m_status == MediaStatus::stopped; }
 
   private:
-	std::unique_ptr<capo::ISource> m_source{};
-
-	MediaStatus m_status;
+	MediaStatus m_status{MediaStatus::stopped};
 	[[maybe_unused]] bool m_trigger{};
 
 	std::optional<MediaFile> m_file{};
+	std::unique_ptr<capo::ISource> m_source{};
 
 	std::string m_status_string{"stopped"};
 };
