@@ -39,7 +39,10 @@ using UniqueContext = std::unique_ptr<char, Deleter>; // xmp_context is char*
 } // namespace
 #endif
 
-std::vector<float> xm::decode(std::filesystem::path const& xm_path) {
+std::vector<float> xm::decode([[maybe_unused]] std::filesystem::path const& xm_path) {
+	auto ret = std::vector<float>{};
+
+#if defined(JUKE_USE_LIBXMP)
 	auto context = create_context();
 	// unique_ptr is used not for new/delete but to ensure custom deinitialization
 	// of the XM module: to end its player and release it at scope exit.
@@ -51,7 +54,6 @@ std::vector<float> xm::decode(std::filesystem::path const& xm_path) {
 	// the RAII context takes care of freeing XMP allocations even if that happens.
 	xmp_start_player(context.get(), static_cast<int>(capo::Buffer::sample_rate_v), 0);
 
-	auto ret = std::vector<float>{};
 	// since the total size is unknown, we cannot pre-reserve any meaningful capacity.
 	// relying on vector's exponential growth, and malloc's eventual full-page allocations, is acceptable here.
 
@@ -67,6 +69,7 @@ std::vector<float> xm::decode(std::filesystem::path const& xm_path) {
 		static constexpr auto sample_max_v = static_cast<float>(std::numeric_limits<std::int16_t>::max());
 		for (std::int16_t const sample : src) { ret.push_back(static_cast<float>(sample) / sample_max_v); }
 	}
+#endif
 
 	return ret;
 }
