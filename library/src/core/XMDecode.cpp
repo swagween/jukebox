@@ -32,6 +32,9 @@ struct Deleter {
 	}
 };
 
+// unique_ptr is used not for new/delete but to ensure custom deinitialization
+// of the XM module: to end its player and release it at scope exit.
+// the Deleter does not modify the passed context, it's safe to reuse.
 using UniqueContext = std::unique_ptr<char, Deleter>; // xmp_context is char*
 
 [[nodiscard]] UniqueContext create_context() { return UniqueContext{xmp_create_context()}; }
@@ -44,9 +47,6 @@ std::vector<float> xm::decode([[maybe_unused]] std::filesystem::path const& xm_p
 
 #if defined(JUKE_USE_LIBXMP)
 	auto context = create_context();
-	// unique_ptr is used not for new/delete but to ensure custom deinitialization
-	// of the XM module: to end its player and release it at scope exit.
-	// the Deleter does not modify the passed context, it's safe to reuse.
 	if (xmp_load_module(context.get(), xm_path.string().c_str()) != 0) { return {}; }
 
 	// happy path begins (no more failures possible).
