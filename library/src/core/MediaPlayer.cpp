@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include <capo/engine.hpp>
 #include <juke/core/AudioFile.hpp>
+#include <juke/core/MediaError.hpp>
 #include <juke/core/MediaPlayer.hpp>
 #include <juke/core/XMFile.hpp>
 #include <juke/graphics/Colors.hpp>
@@ -29,7 +30,7 @@ bool MediaPlayer::load_media(std::filesystem::path const& path) {
 			return false;
 		}
 		m_media_file = std::move(media_file);
-	} catch (std::exception const& e) {
+	} catch (MediaError const& e) { // only MediaErrors are caught here, others are raised all the way to main.
 		std::println("ERROR: {}", e.what());
 		return false;
 	}
