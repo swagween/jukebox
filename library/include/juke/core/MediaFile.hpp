@@ -1,19 +1,20 @@
 
 #pragma once
 
-#include <capo/engine.hpp>
+#include <capo/source.hpp>
 #include <filesystem>
 
 namespace juke {
 
-class MediaFile {
+class IMediaFile : public capo::Polymorphic {
   public:
-	explicit MediaFile(std::filesystem::path const& path);
-	[[nodiscard]] capo::Buffer const& get_buffer() const { return m_buffer; }
+	explicit IMediaFile(std::filesystem::path const& path) : m_filename(path.filename().string()) {}
+
+	virtual bool bind_to(capo::ISource& source) = 0;
+
 	[[nodiscard]] std::string const& get_filename() const { return m_filename; }
 
   private:
-	capo::Buffer m_buffer{};
 	std::string m_filename{};
 };
 

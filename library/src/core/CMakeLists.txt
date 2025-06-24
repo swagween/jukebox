@@ -1,7 +1,8 @@
 
 target_sources(juke PRIVATE
   Application.cpp
-  MediaFile.cpp
+  AudioFile.cpp
   MediaPlayer.cpp
-  XMDecode.cpp
+  XMFile.cpp
+  XMStream.cpp
 )
