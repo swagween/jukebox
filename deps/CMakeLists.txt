@@ -17,7 +17,7 @@ FetchContent_Declare(gvdi
 FetchContent_Declare(
   capo
   GIT_REPOSITORY https://github.com/capo-devs/capo-lite
-  GIT_TAG v2.0.1
+  GIT_TAG v2.1.0
   GIT_SHALLOW TRUE
 )
 
