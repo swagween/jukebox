@@ -47,11 +47,9 @@ void MediaPlayer::handle_input() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
 	if (ImGui::Begin("Player", nullptr, flags)) {
 
-		auto const duration = m_source->get_duration();
-		if (duration > 0s) {
+		if (auto const duration = m_source->get_duration(); duration > 0s) {
 			/* Progress Bar */
-			auto fraction = 0.f;
-			if (m_media_file) { fraction = m_source->get_cursor() / m_source->get_duration(); }
+			auto const fraction = m_source->get_cursor() / duration;
 			ImGui::ProgressBar(fraction);
 		}
 
