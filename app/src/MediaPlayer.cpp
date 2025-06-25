@@ -1,11 +1,11 @@
 
 #include <imgui.h>
+#include <app/Colors.hpp>
+#include <app/MediaPlayer.hpp>
 #include <capo/engine.hpp>
 #include <juke/core/AudioFile.hpp>
 #include <juke/core/MediaError.hpp>
-#include <juke/core/MediaPlayer.hpp>
 #include <juke/core/XMFile.hpp>
-#include <juke/graphics/Colors.hpp>
 #include <print>
 
 namespace juke {

@@ -3,7 +3,6 @@
 #include <juke/core/AudioFile.hpp>
 #include <juke/core/MediaError.hpp>
 #include <juke/core/XMFile.hpp>
-#include <juke/graphics/Colors.hpp>
 #include <juke/juke.hpp>
 #include <print>
 
@@ -50,7 +49,7 @@ void Jukebox::pause() {
 
 void Jukebox::stop() {
 	m_source->stop();
-	if (!m_source->set_cursor({})) { std::println("failed to set cursor"); }; // seek to start
+	m_source->set_cursor({}); // seek to start
 	m_status = MediaStatus::stopped;
 }
 
