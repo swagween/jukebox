@@ -1,10 +1,11 @@
 #pragma once
 
-#include <capo/source.hpp>
+#include <capo/engine.hpp>
 #include <juke/core/MediaFile.hpp>
+#include <juke/core/XMStream.hpp>
 #include <chrono>
 #include <filesystem>
-#include <optional>
+#include <memory>
 #include <string>
 
 namespace juke {
@@ -26,7 +27,7 @@ class MediaPlayer {
 	MediaStatus m_status{MediaStatus::stopped};
 	[[maybe_unused]] bool m_trigger{};
 
-	std::optional<MediaFile> m_file{};
+	std::unique_ptr<IMediaFile> m_media_file{};
 	std::unique_ptr<capo::ISource> m_source{};
 
 	std::string m_status_string{"stopped"};
