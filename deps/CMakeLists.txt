@@ -4,14 +4,7 @@ project(jukebox-deps)
 include(FetchContent)
 set(BUILD_SHARED_LIBS OFF)
 
-set(fetch_list gvdi capo djson)
-
-# gvdi
-FetchContent_Declare(gvdi
-  GIT_REPOSITORY https://github.com/karnkaul/gvdi
-  GIT_TAG v0.2.5
-  GIT_SHALLOW TRUE
-)
+set(fetch_list capo)
 
 # capo
 FetchContent_Declare(
@@ -32,14 +25,6 @@ if(JUKE_USE_LIBXMP)
   list(APPEND fetch_list libxmp)
 endif()
 
-# djson
-FetchContent_Declare(
-  djson
-  GIT_REPOSITORY https://github.com/karnkaul/djson
-  GIT_TAG v2.1.1
-  GIT_SHALLOW TRUE
-)
-
 set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(LIBXMP_PIC ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(${fetch_list})
@@ -48,7 +33,5 @@ add_library(jukebox-deps INTERFACE)
 add_library(jukebox::deps ALIAS jukebox-deps)
 
 target_link_libraries(jukebox-deps INTERFACE
-  djson::djson
   capo::capo
-  gvdi::gvdi
 )

@@ -1,6 +1,6 @@
 
 add_subdirectory(core)
 
-target_sources(juke PRIVATE
+target_sources(juke-lib PRIVATE
   juke.cpp
 )
