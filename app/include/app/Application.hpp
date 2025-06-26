@@ -1,9 +1,9 @@
 
 #pragma once
 
+#include <app/MediaPlayer.hpp>
 #include <capo/engine.hpp>
 #include <gvdi/context.hpp>
-#include <juke/core/MediaPlayer.hpp>
 #include <optional>
 #include <span>
 

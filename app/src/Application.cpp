@@ -1,5 +1,5 @@
 
-#include <juke/core/Application.hpp>
+#include <app/Application.hpp>
 #include <stdexcept>
 
 namespace juke {
@@ -19,19 +19,8 @@ Application::Application() {
 }
 
 void Application::run() {
-	using Clock = std::chrono::steady_clock;
-
-	auto now = Clock::now();
-
 	while (m_context->next_frame()) {
-		auto const new_now = Clock::now();
-		auto const dt = std::chrono::duration_cast<std::chrono::duration<float>>(new_now - now);
-		now = new_now;
-
 		m_player->handle_input();
-
-		m_player->update(dt);
-
 		m_context->render();
 	}
 }

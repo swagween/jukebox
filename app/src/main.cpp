@@ -1,5 +1,5 @@
 
-#include <juke/core/Application.hpp>
+#include <app/Application.hpp>
 #include <print>
 
 int main() {
