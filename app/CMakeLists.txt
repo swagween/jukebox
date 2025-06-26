@@ -3,9 +3,18 @@ project(jukebox-app)
 add_library(jukebox-app)
 add_library(jukebox-app::lib ALIAS jukebox-app)
 
+# gvdi
+FetchContent_Declare(gvdi
+  GIT_REPOSITORY https://github.com/karnkaul/gvdi
+  GIT_TAG v0.2.5
+  GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(gvdi)
+
 target_link_libraries(jukebox-app
   PUBLIC
-  juke::lib
+  juke::juke
+  gvdi::gvdi
 )
 
 # Glob all headers

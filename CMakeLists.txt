@@ -20,4 +20,9 @@ include(cmake/func/AddTargetSource.cmake)
 
 add_subdirectory(deps)
 add_subdirectory(library)
-add_subdirectory(app)
+
+option(JUKE_BUILD_APP "Build Media Player app" ${PROJECT_IS_TOP_LEVEL})
+
+if(JUKE_BUILD_APP)
+  add_subdirectory(app)
+endif()
