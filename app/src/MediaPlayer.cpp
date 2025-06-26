@@ -30,17 +30,14 @@ void MediaPlayer::handle_input() {
 		ImGui::SameLine();
 		ImGui::Checkbox("loop", &looping);
 		ImGui::Separator();
+
+		/* Metadata & Info */
 		ImGui::Text("File Name: ");
 		ImGui::SameLine();
 		m_jukebox.has_file() ? ImGui::TextColored(colors::blue, "%s", m_jukebox.get_filename().c_str()) : ImGui::TextColored(colors::grey, "<no file>");
-
-		m_status_string.clear();
-		std::format_to(std::back_inserter(m_status_string), "{}", m_jukebox.playing() ? "playing" : m_jukebox.paused() ? "paused" : "stopped");
-		ImGui::Text("Media Status: %s", m_status_string.c_str());
+		ImGui::Text("Media Status: %s", m_jukebox.is_playing() ? "playing" : "paused");
 	}
 	ImGui::End();
 }
-
-void MediaPlayer::update() { m_jukebox.update(); }
 
 } // namespace juke

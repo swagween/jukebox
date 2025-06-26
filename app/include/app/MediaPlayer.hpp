@@ -13,11 +13,9 @@ class MediaPlayer {
 	explicit MediaPlayer(capo::IEngine& audio_engine);
 	bool load_media(std::filesystem::path const& path);
 	void handle_input();
-	void update();
 
   private:
 	Jukebox m_jukebox;
-	std::string m_status_string{"stopped"};
 };
 
 } // namespace juke

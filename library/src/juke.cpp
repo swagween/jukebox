@@ -37,24 +37,15 @@ bool Jukebox::load_media(std::filesystem::path const& path) {
 }
 
 void Jukebox::play(bool looping) {
-	m_source->play();
-	m_status = m_source->is_playing() ? MediaStatus::playing : MediaStatus::stopped;
 	m_source->set_looping(looping);
+	m_source->play();
 }
 
-void Jukebox::pause() {
-	m_source->stop();
-	m_status = MediaStatus::paused;
-}
+void Jukebox::pause() { m_source->stop(); }
 
 void Jukebox::stop() {
 	m_source->stop();
-	m_source->set_cursor({}); // seek to start
-	m_status = MediaStatus::stopped;
-}
-
-void Jukebox::update() {
-	if (m_status == MediaStatus::playing && !m_source->is_playing()) { m_status = MediaStatus::stopped; }
+	m_source->set_cursor({}); // seek to start. this will do nothing for XM streams
 }
 
 } // namespace juke

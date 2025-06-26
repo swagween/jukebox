@@ -21,9 +21,6 @@ Application::Application() {
 void Application::run() {
 	while (m_context->next_frame()) {
 		m_player->handle_input();
-
-		m_player->update();
-
 		m_context->render();
 	}
 }
