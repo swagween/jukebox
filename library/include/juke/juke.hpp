@@ -28,6 +28,26 @@ class Jukebox {
 	/// \brief Stop audio and set cursor to beginning. This does not work for XM format.
 	void stop();
 
+	/* capo API wrapper functions */
+
+	// setters
+	void set_gain(float gain) { m_source->set_gain(gain); }
+	void set_pitch(float pitch) { m_source->set_pitch(pitch); }
+	void set_pan(float pan) { m_source->set_pan(pan); }
+	void set_fade_in(std::chrono::duration<float> duration, float gain) { m_source->set_fade_in(duration, gain); }
+	void set_fade_out(std::chrono::duration<float> duration) { m_source->set_fade_out(duration); }
+	void set_position(capo::Vec3f pos) { m_source->set_position(pos); }
+	void set_spatialized(bool spatialized) { m_source->set_spatialized(spatialized); }
+
+	//getters
+	[[nodiscard]] auto get_gain() const -> float { return m_source->get_gain(); }
+	[[nodiscard]] auto get_pitch() const -> float { return m_source->get_pitch(); }
+	[[nodiscard]] auto get_pan() const -> float { return m_source->get_pan(); }
+	[[nodiscard]] auto get_position() const -> capo::Vec3f { return m_source->get_position(); }
+	[[nodiscard]] auto is_spatialized() const -> bool { return m_source->is_spatialized(); }
+
+	/* -------------------------- */
+
 	/// \brief Get the name of the loaded file as a string.
 	[[nodiscard]] auto get_filename() const& -> std::string { return m_media_file->get_filename(); }
 
