@@ -28,6 +28,9 @@ class Jukebox {
 	/// \brief Stop audio and set cursor to beginning. This does not work for XM format.
 	void stop();
 
+	// utility functions
+	void set_cutoff(FilterType type, float cutoff_hz, float sample_rate);
+
 	/* capo API wrapper functions */
 
 	// setters
@@ -39,7 +42,7 @@ class Jukebox {
 	void set_position(capo::Vec3f pos) { m_source->set_position(pos); }
 	void set_spatialized(bool spatialized) { m_source->set_spatialized(spatialized); }
 
-	//getters
+	// getters
 	[[nodiscard]] auto get_gain() const -> float { return m_source->get_gain(); }
 	[[nodiscard]] auto get_pitch() const -> float { return m_source->get_pitch(); }
 	[[nodiscard]] auto get_pan() const -> float { return m_source->get_pan(); }

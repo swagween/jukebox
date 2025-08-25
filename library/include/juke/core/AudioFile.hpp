@@ -1,6 +1,7 @@
 #pragma once
 
 #include <capo/buffer.hpp>
+#include <juke/core/Common.hpp>
 #include <juke/core/MediaFile.hpp>
 
 namespace juke {
@@ -10,6 +11,7 @@ class AudioFile : public IMediaFile {
 	explicit AudioFile(std::filesystem::path const& path);
 
 	bool bind_to(capo::ISource& source) final { return source.bind_to(m_buffer); }
+	void set_cutoff(FilterType type, float to_cutoff, float sample_rate) override {}
 
   private:
 	std::shared_ptr<capo::Buffer> m_buffer{std::make_shared<capo::Buffer>()};

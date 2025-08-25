@@ -2,6 +2,9 @@
 
 #include <capo/buffer.hpp>
 #include <capo/stream_pipe.hpp>
+#include <juke/core/Common.hpp>
+#include <juke/effect/HighPassFilter.hpp>
+#include <juke/effect/LowPassFilter.hpp>
 #include <filesystem>
 #include <memory>
 
@@ -12,6 +15,8 @@ class XMStream : public capo::IStreamPipe {
 	static bool is_xm(std::filesystem::path const& path);
 
 	explicit XMStream(std::filesystem::path const& path);
+
+	void set_cutoff(FilterType type, float to_cutoff, float sample_rate);
 
   private:
 	struct Impl;
@@ -25,6 +30,9 @@ class XMStream : public capo::IStreamPipe {
 	auto set_looping(bool looping) -> bool final;
 
 	std::unique_ptr<Impl, Deleter> m_impl{};
+
+	LowPassFilter m_lowpass;
+	HighPassFilter m_highpass;
 };
 
 } // namespace juke

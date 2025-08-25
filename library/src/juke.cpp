@@ -48,4 +48,6 @@ void Jukebox::stop() {
 	m_source->set_cursor({}); // seek to start. this will do nothing for XM streams
 }
 
+void Jukebox::set_cutoff(FilterType type, float cutoff_hz, float sample_rate) { m_media_file->set_cutoff(type, cutoff_hz, sample_rate); }
+
 } // namespace juke

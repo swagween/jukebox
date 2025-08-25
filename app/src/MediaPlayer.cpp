@@ -26,6 +26,8 @@ void MediaPlayer::handle_input() {
 		static auto gain{1.f};
 		static auto pan{0.f};
 		static auto pitch{1.f};
+		static auto lo_cutoff{sample_rate_v};
+		static auto hi_cutoff{0.f};
 		static float pos[] = {0.f, 0.f, 0.f};
 
 		/* Metadata & Info */
@@ -67,6 +69,11 @@ void MediaPlayer::handle_input() {
 				m_jukebox.set_position(capo::Vec3f{pos[0], pos[1], pos[2]});
 				if (ImGui::Button("reset")) { pos[0] = pos[1] = pos[2] = 0.f; }
 			}
+
+			ImGui::SliderFloat("Low Pass", &lo_cutoff, 0.f, sample_rate_v, "%.1f", ImGuiSliderFlags_Logarithmic);
+			m_jukebox.set_cutoff(FilterType::low, lo_cutoff, sample_rate_v);
+			ImGui::SliderFloat("High Pass:", &hi_cutoff, 0.f, sample_rate_v, "%.1f", ImGuiSliderFlags_Logarithmic);
+			m_jukebox.set_cutoff(FilterType::high, hi_cutoff, sample_rate_v);
 			ImGui::TreePop();
 		}
 	}

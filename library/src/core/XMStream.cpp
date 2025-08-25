@@ -24,7 +24,7 @@ void XMStream::Deleter::operator()(Impl* ptr) const noexcept {
 	std::default_delete<Impl>{}(ptr);
 }
 
-XMStream::XMStream(std::filesystem::path const& path) : m_impl(new Impl) {
+XMStream::XMStream(std::filesystem::path const& path) : m_impl(new Impl), m_lowpass{sample_rate_v, sample_rate_v}, m_highpass{0.f, sample_rate_v} {
 	if (!m_impl->load_module(path)) { throw MediaError{"Failed to open XM file: " + path.generic_string()}; }
 	xmp_start_player(m_impl->context, static_cast<int>(capo::Buffer::sample_rate_v), 0);
 }
@@ -43,13 +43,27 @@ void XMStream::push_samples(std::vector<float>& out) {
 	// wrap buffer into strongly-typed span for easy iteration and normalization.
 	auto const src = std::span{static_cast<std::int16_t const*>(frame_info.buffer), static_cast<std::size_t>(frame_info.buffer_size) / sizeof(std::int16_t)};
 	// need to normalize each u16 sample [-32k,32k] to f32 [-1,1].
+
 	static constexpr auto sample_max_v = static_cast<float>(std::numeric_limits<std::int16_t>::max());
-	for (std::int16_t const sample : src) { out.push_back(static_cast<float>(sample) / sample_max_v); }
+	for (std::int16_t const sample : src) {
+		auto normalized = static_cast<float>(sample) / sample_max_v;
+		auto high_passed = m_highpass.process(normalized);
+		auto band_passed = m_lowpass.process(high_passed);
+		out.push_back(band_passed);
+	}
 }
 
 auto XMStream::set_looping(bool const looping) -> bool {
 	m_impl->looping = looping;
 	return true;
+}
+
+void XMStream::set_cutoff(FilterType type, float to_cutoff, float sample_rate) {
+	switch (type) {
+	case FilterType::high: m_highpass.set_cutoff(to_cutoff, sample_rate); break;
+	case FilterType::low: m_lowpass.set_cutoff(to_cutoff, sample_rate); break;
+	default: break;
+	}
 }
 
 #else
