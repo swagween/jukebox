@@ -16,6 +16,7 @@ class MediaPlayer {
 
   private:
 	Jukebox m_jukebox;
+	std::filesystem::path m_source_folder{};
 };
 
 } // namespace juke

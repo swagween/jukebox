@@ -28,6 +28,9 @@ class Jukebox {
 	/// \brief Stop audio and set cursor to beginning. This does not work for XM format.
 	void stop();
 
+	/// \brief Write the current XM module to WAV format.
+	void write_to_wav();
+
 	// utility functions
 	void set_cutoff(FilterType type, float cutoff_hz, float sample_rate);
 

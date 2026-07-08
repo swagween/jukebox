@@ -17,6 +17,7 @@ class XMStream : public capo::IStreamPipe {
 	explicit XMStream(std::filesystem::path const& path);
 
 	void set_cutoff(FilterType type, float to_cutoff, float sample_rate);
+	void write_to_wav();
 
   private:
 	struct Impl;
@@ -33,6 +34,8 @@ class XMStream : public capo::IStreamPipe {
 
 	LowPassFilter m_lowpass;
 	HighPassFilter m_highpass;
+
+	std::filesystem::path m_path;
 };
 
 } // namespace juke

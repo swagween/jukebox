@@ -13,6 +13,7 @@ class IMediaFile : public capo::Polymorphic {
 
 	virtual bool bind_to(capo::ISource& source) = 0;
 	virtual void set_cutoff(FilterType type, float to_cutoff, float sample_rate) = 0;
+	virtual void write_to_wav() = 0;
 
 	[[nodiscard]] std::string const& get_filename() const { return m_filename; }
 

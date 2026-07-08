@@ -12,6 +12,7 @@ class AudioFile : public IMediaFile {
 
 	bool bind_to(capo::ISource& source) final { return source.bind_to(m_buffer); }
 	void set_cutoff(FilterType type, float to_cutoff, float sample_rate) override {}
+	void write_to_wav() override {}
 
   private:
 	std::shared_ptr<capo::Buffer> m_buffer{std::make_shared<capo::Buffer>()};

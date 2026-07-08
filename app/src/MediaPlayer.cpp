@@ -14,7 +14,10 @@ using namespace std::chrono_literals;
 
 MediaPlayer::MediaPlayer(capo::IEngine& audio_engine) : m_jukebox(audio_engine) {}
 
-bool MediaPlayer::load_media(std::filesystem::path const& path) { return m_jukebox.load_media(path); }
+bool MediaPlayer::load_media(std::filesystem::path const& path) {
+	m_source_folder = path.parent_path();
+	return m_jukebox.load_media(path);
+}
 
 void MediaPlayer::handle_input() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
@@ -31,6 +34,7 @@ void MediaPlayer::handle_input() {
 		static float pos[] = {0.f, 0.f, 0.f};
 
 		/* Metadata & Info */
+		ImGui::Text("Folder: %s", m_source_folder.string().c_str());
 		ImGui::Text("File Name: ");
 		ImGui::SameLine();
 		m_jukebox.has_file() ? ImGui::TextColored(colors::blue, "%s", m_jukebox.get_filename().c_str()) : ImGui::TextColored(colors::grey, "<no file>");
@@ -44,6 +48,13 @@ void MediaPlayer::handle_input() {
 		if (ImGui::Button("pause")) { m_jukebox.pause(); }
 		ImGui::SameLine();
 		if (ImGui::Button("stop")) { m_jukebox.stop(); }
+		ImGui::Separator();
+		if (ImGui::Button("write to .wav")) { m_jukebox.write_to_wav(); }
+		if (ImGui::Button("generate soundtrack")) {
+			for (auto const& file : std::filesystem::recursive_directory_iterator(m_source_folder)) {
+				if (m_jukebox.load_media(file)) { m_jukebox.write_to_wav(); }
+			}
+		}
 		if (ImGui::TreeNode("advanced", "advanced")) {
 
 			if (ImGui::Button("reset")) {
