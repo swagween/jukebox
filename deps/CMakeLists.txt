@@ -23,6 +23,21 @@ if(JUKE_USE_LIBXMP)
     GIT_SHALLOW TRUE
   )
   list(APPEND fetch_list libxmp)
+  
+  #dr_wav
+  FetchContent_Declare(
+    dr_wav
+    GIT_REPOSITORY https://github.com/mackron/dr_libs.git
+    GIT_TAG master
+    GIT_SHALLOW TRUE
+  )
+  FetchContent_MakeAvailable(dr_wav)
+  message(STATUS "dr_wav_SOURCE_DIR = ${dr_wav_SOURCE_DIR}")
+
+  add_library(dr_wav INTERFACE)
+  target_include_directories(dr_wav INTERFACE
+    ${dr_wav_SOURCE_DIR}
+  )
 endif()
 
 set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
@@ -34,4 +49,5 @@ add_library(jukebox::deps ALIAS jukebox-deps)
 
 target_link_libraries(jukebox-deps INTERFACE
   capo::capo
+  dr_wav
 )

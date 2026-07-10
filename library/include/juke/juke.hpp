@@ -28,6 +28,12 @@ class Jukebox {
 	/// \brief Stop audio and set cursor to beginning. This does not work for XM format.
 	void stop();
 
+	/// \brief Write the current XM module to WAV format.
+	void write_to_wav();
+
+	// utility functions
+	void set_cutoff(FilterType type, float cutoff_hz, float sample_rate);
+
 	/* capo API wrapper functions */
 
 	// setters
@@ -39,7 +45,10 @@ class Jukebox {
 	void set_position(capo::Vec3f pos) { m_source->set_position(pos); }
 	void set_spatialized(bool spatialized) { m_source->set_spatialized(spatialized); }
 
-	//getters
+	// getters
+	[[nodiscard]] auto get_duration() const -> std::chrono::duration<float> { return m_source->get_duration(); }
+	[[nodiscard]] auto get_cursor() const -> std::chrono::duration<float> { return m_source->get_cursor(); }
+	[[nodiscard]] auto get_percent_complete() const -> float { return is_xm() ? m_media_file->get_progress() : get_cursor().count() / get_duration().count(); }
 	[[nodiscard]] auto get_gain() const -> float { return m_source->get_gain(); }
 	[[nodiscard]] auto get_pitch() const -> float { return m_source->get_pitch(); }
 	[[nodiscard]] auto get_pan() const -> float { return m_source->get_pan(); }
@@ -50,7 +59,7 @@ class Jukebox {
 
 	/// \brief Get the name of the loaded file as a string.
 	[[nodiscard]] auto get_filename() const& -> std::string { return m_media_file->get_filename(); }
-
+	[[nodiscard]] auto is_xm() const -> bool { return m_media_file->get_extension() == ".xm"; }
 	[[nodiscard]] auto has_file() const -> bool { return static_cast<bool>(m_media_file); }
 	[[nodiscard]] auto is_playing() const -> bool { return m_source->is_playing(); }
 	[[nodiscard]] auto is_stopped() const -> bool { return !is_playing(); }
