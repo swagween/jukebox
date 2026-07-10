@@ -22,6 +22,7 @@ void Application::run() {
 	while (m_context->next_frame()) {
 		m_player->handle_input();
 		m_context->render();
+		// if (m_player->get_content_size().x > 0 && m_player->get_content_size().y > 0 && !m_player->has_size_changed()) { glfwSetWindowSize(m_context->get_window(), m_player->get_content_size().x, m_player->get_content_size().y); }
 	}
 }
 

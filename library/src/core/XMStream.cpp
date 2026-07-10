@@ -39,6 +39,14 @@ void XMStream::push_samples(std::vector<float>& out) {
 	auto frame_info = xmp_frame_info{};
 	if (xmp_play_frame(m_impl->context) != 0) { return; }
 	xmp_get_frame_info(m_impl->context, &frame_info);
+
+	// calculate module progress
+	auto mi = xmp_module_info{};
+	xmp_get_module_info(m_impl->context, &mi);
+	float total_seconds = mi.seq_data->duration / 1000.0f;
+	float current_seconds = frame_info.time / 1000.0f;
+	m_progress = current_seconds / total_seconds;
+
 	if (!m_impl->looping && frame_info.loop_count > 0) { return; }
 	assert(frame_info.buffer_size % sizeof(std::int16_t) == 0);
 	// wrap buffer into strongly-typed span for easy iteration and normalization.

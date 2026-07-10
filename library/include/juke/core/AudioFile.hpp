@@ -14,6 +14,8 @@ class AudioFile : public IMediaFile {
 	void set_cutoff(FilterType type, float to_cutoff, float sample_rate) override {}
 	void write_to_wav() override {}
 
+	[[nodiscard]] auto get_progress() const -> float { return 0.f; }
+
   private:
 	std::shared_ptr<capo::Buffer> m_buffer{std::make_shared<capo::Buffer>()};
 };

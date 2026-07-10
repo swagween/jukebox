@@ -19,6 +19,8 @@ class XMStream : public capo::IStreamPipe {
 	void set_cutoff(FilterType type, float to_cutoff, float sample_rate);
 	void write_to_wav();
 
+	[[nodiscard]] auto get_progress() const -> float { return m_progress; }
+
   private:
 	struct Impl;
 	struct Deleter {
@@ -34,6 +36,8 @@ class XMStream : public capo::IStreamPipe {
 
 	LowPassFilter m_lowpass;
 	HighPassFilter m_highpass;
+
+	float m_progress{};
 
 	std::filesystem::path m_path;
 };
